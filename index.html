@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neon Number Sprint</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="game-module-bar">
+      <h1>Neon Number Sprint</h1>
+    </header>
+
+    <div class="main-container">
+      <aside class="left-panel">
+        <div class="info-box" id="user-box">Hello, Player</div>
+        <div class="info-box" id="score-time-box">
+          <p>Score: <span id="score">0</span></p>
+          <div class="timer-display">
+            <p>Time:</p>
+            <p id="time">0.00</p>
+          </div>
+        </div>
+        <div class="buttons-row">
+          <button id="start-btn">Start</button>
+          <button id="stop-btn">Stop</button>
+          <button id="tips-btn">Tips</button>
+        </div>
+        <div class="info-box" id="leaderboard-box">
+          <h2>Leaderboard</h2>
+          <ul id="leaderboard-list"></ul>
+        </div>
+      </aside>
+
+      <main class="game-zone-container">
+        <div id="game-zone"></div>
+      </main>
+    </div>
+
+    <div id="modal" class="modal-overlay">
+      <div class="modal-content">
+        <h2 id="modal-title">Welcome!</h2>
+        <p id="modal-text">Please enter your name to start.</p>
+        <input type="text" id="player-name-input" placeholder="Your Name" />
+        <div id="modal-buttons"></div>
+      </div>
+    </div>
+
+    <div id="countdown-overlay" class="modal-overlay" style="display: none">
+      <span id="countdown-text">3</span>
+    </div>
+
+    <audio
+      id="correct-sound"
+      src="sounds/mixkit-correct-answer-notification-947.wav"
+      preload="auto"
+    ></audio>
+    <audio
+      id="wrong-sound"
+      src="sounds/wrong-158359.mp3"
+      preload="auto"
+    ></audio>
+    <audio
+      id="bg-music"
+      src="sounds/epic-adventure-327468.mp3"
+      loop
+      preload="auto"
+    ></audio>
+    <audio
+      id="countdown-sound"
+      src="sounds/tick-tock-104746.mp3"
+      preload="auto"
+    ></audio>
+    <audio
+      id="alien-speak-sound"
+      src="sounds/alien-talking-312011.mp3"
+      loop
+      preload="auto"
+    ></audio>
+
+    <script src="script.js"></script>
+  </body>
+</html>
