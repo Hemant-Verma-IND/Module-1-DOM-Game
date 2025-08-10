@@ -21,6 +21,9 @@ document.addEventListener("DOMContentLoaded", () => {
     music: document.getElementById("bg-music"),
     countdown: document.getElementById("countdown-sound"),
     speak: document.getElementById('alien-speak-sound'),
+    gameover: document.getElementById('game_over'),
+    wonsong: document.getElementById('won_song'),
+    levelpassed: document.getElementById('level_passed'),
   };
 
   let timer,
@@ -34,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     playerName = "";
   let isGameActive = false,
     isAudioUnlocked = false;
-  let hasSeenGuide = false; 
+  let hasSeenGuide = false;
 
   const unlockAudioAndScreen = () => {
     if (!isAudioUnlocked) {
@@ -65,26 +68,26 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.style.display = "flex";
     playerNameInput.style.display = type === "name" ? "block" : "none";
     modalButtons.innerHTML = "";
-    
+
     if (type === "name") {
-        playerNameInput.focus();
-        modalButtons.innerHTML = '<button id="modal-submit-btn">Login</button>';
-        document.getElementById("modal-submit-btn").onclick = () => {
-            unlockAudioAndScreen();
-            playerName = playerNameInput.value.trim() || "Agent";
-            userBox.textContent = `V.I. Hello, ${playerName}`;
-            const storyText = `In the year 2099, our core training simulation, the 'Sprint A.I.', has gone rogue. It's now a chaotic test of reflex and nerve.<br><br>Your mission is to infiltrate the system and prove human superiority. Stabilize the grid by neutralizing the numbered targets in perfect sequence. The A.I. will adapt, so be fast. Be flawless.<br><br>The fate of the program is in your hands.`;
-            showModal("URGENT: Mission Briefing", storyText, "story");
-        };
+      playerNameInput.focus();
+      modalButtons.innerHTML = '<button id="modal-submit-btn">Login</button>';
+      document.getElementById("modal-submit-btn").onclick = () => {
+        unlockAudioAndScreen();
+        playerName = playerNameInput.value.trim() || "Agent";
+        userBox.textContent = `V.I. Hello, ${playerName}`;
+        const storyText = `Year 2099. Operation Sprint A.I. is go. Breach the hostile grid by striking numbered nodes in perfect ascending order before time runs out. Each sector gets faster and deadlier. Powered entirely by the Document Object Model — pure HTML, CSS, and JavaScript — this mission tests your reflexes, precision, and nerve. Stay sharp, Operative; the grid shows no mercy.`;
+        showModal("URGENT: Mission Briefing", storyText, "story");
+      };
     } else if (type === "story") {
-        if (!showModal.hasPlayedSpeak) {
-            sounds.speak.loop = false;
-            sounds.speak.volume = 1.0;
-            sounds.speak.currentTime = 0;
-            sounds.speak.play().catch(() => {});
-            showModal.hasPlayedSpeak = true;
-        }
-        modalButtons.innerHTML =
+      if (!showModal.hasPlayedSpeak) {
+        sounds.speak.loop = false;
+        sounds.speak.volume = 1.0;
+        sounds.speak.currentTime = 0;
+        sounds.speak.play().catch(() => {});
+        showModal.hasPlayedSpeak = true;
+      }
+      modalButtons.innerHTML =
         '<button id="modal-begin-btn">Acknowledge & Proceed</button>';
       document.getElementById("modal-begin-btn").onclick = () => {
         if (hasSeenGuide) {
@@ -115,27 +118,6 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("modal-next-level-btn").onclick = () => {
         modal.style.display = "none";
         runCountdown(() => startLevel(currentLevel));
-      };
-    } else if (type === "endgame") {
-      const winMsg = `MISSION COMPLETE, ${playerName}!<br>The A.I. has been subdued.<br>Total Time: ${totalTimeElapsed.toFixed(
-        2
-      )}s<br>Final Score: ${score}`;
-      const loseMsg = `SYSTEM OVERRUN. MISSION FAILED.<br>The A.I. proved too fast.<br>Final Score: ${score}`;
-      modalTitle.textContent = isWinner ? "VICTORY" : "DEFEAT";
-      modalText.innerHTML = isWinner ? winMsg : loseMsg;
-      modalButtons.innerHTML = `<button id="modal-replay-btn">Re-Simulate</button><button id="modal-change-player-btn">New Agent</button>`;
-      document.getElementById("modal-replay-btn").onclick = () => {
-        modal.style.display = "none";
-        startNewGame();
-      };
-      document.getElementById("modal-change-player-btn").onclick = () => {
-        modal.style.display = "none";
-        resetGameStats();
-        showModal(
-          "Neon Number Sprint",
-          "Please enter your agent name.",
-          "name"
-        );
       };
     } else {
       modalButtons.innerHTML = '<button id="modal-close-btn">Roger.</button>';
@@ -208,9 +190,24 @@ document.addEventListener("DOMContentLoaded", () => {
         clearInterval(timer);
         totalTimeElapsed += (Date.now() - levelStartTime) / 1000;
         if (currentLevel === 5) {
+          if (!showModal.haswonsong) {
+          sounds.wonsong.loop = false;
+          sounds.wonsong.volume = 1.0;
+          sounds.wonsong.currentTime = 0;
+          sounds.wonsong.play().catch(() => {});
+          showModal.haswonsong = true;
+          }
           endGame(true);
+
         } else {
           currentLevel++;
+          if (!showModal.haslevelpassed) {
+          sounds.levelpassed.loop = false;
+          sounds.levelpassed.volume = 1.0;
+          sounds.levelpassed.currentTime = 0;
+          sounds.levelpassed.play().catch(() => {});
+          showModal.haslevelpassed = true;
+          }
           showModal(
             `ADAPTATION COMPLETE`,
             `The A.I. has increased complexity.`,
@@ -236,13 +233,52 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }, 50);
   };
+
   const endGame = (isWinner) => {
     clearInterval(timer);
     isGameActive = false;
     sounds.music.pause();
-    if (!isWinner) totalTimeElapsed += timeLimit;
+    sounds.music.currentTime = 0;
+
+
+    if (!isWinner) {
+      totalTimeElapsed += (Date.now() - levelStartTime) / 1000;
+          if (!showModal.hasgameover) {
+          sounds.gameover.loop = false;
+          sounds.gameover.volume = 1.0;
+          sounds.gameover.currentTime = 0;
+          sounds.gameover.play().catch(() => {});
+          showModal.hasgameover = true;
+          }
+    }
+
     updateLeaderboard(playerName, score, totalTimeElapsed);
-    showModal("", "", "endgame", isWinner);
+
+    const winMsg = `MISSION COMPLETE, ${playerName}!<br>The A.I. has been subdued.<br>Total Time: ${totalTimeElapsed.toFixed(
+      2
+    )}s<br>Final Score: ${score}`;
+    const loseMsg = `SYSTEM OVERRUN. MISSION FAILED.<br>The A.I. proved too fast.<br>Final Score: ${score}`;
+
+    modalTitle.textContent = isWinner ? "VICTORY" : "DEFEAT";
+    modalText.innerHTML = isWinner ? winMsg : loseMsg;
+    playerNameInput.style.display = "none";
+    modalButtons.innerHTML = `<button id="modal-replay-btn">Re-Simulate</button><button id="modal-change-player-btn">New Agent</button>`;
+
+    document.getElementById("modal-replay-btn").onclick = () => {
+      modal.style.display = "none";
+      startNewGame();
+    };
+    document.getElementById("modal-change-player-btn").onclick = () => {
+      modal.style.display = "none";
+      resetGameStats();
+      showModal(
+        "Human Vs AI Number Sprintt",
+        "Please enter your agent name.",
+        "name"
+      );
+    };
+
+    modal.style.display = "flex";
   };
 
   const updateScore = (points) => {
@@ -270,7 +306,7 @@ document.addEventListener("DOMContentLoaded", () => {
       startNewGame();
     } else {
       showModal(
-        "Neon Number Sprint",
+        "Human Vs AI Number Sprint",
         "Please enter your agent name to begin.",
         "name"
       );
@@ -288,8 +324,8 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 
   showModal(
-    "Human Number Sprint",
-    "Please enter your agent name to begin.",
+    "Human Vs AI Number Sprint",
+    "Please enter your name to begin.",
     "name"
   );
 });

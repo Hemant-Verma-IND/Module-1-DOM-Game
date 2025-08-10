@@ -1,5 +1,4 @@
-/* All CSS from the previous step remains the same... */
-/* New Style for the Guide Text */
+
 .guide-text {
   text-align: left;
   margin: 20px auto;
@@ -8,10 +7,9 @@
 }
 
 .guide-text strong {
-  color: #00ffc3; /* Neon Cyan for emphasis */
+  color: #00ffc3; 
 }
 
-/* ... All other CSS is unchanged */
 body {
   font-family: "Orbitron", sans-serif;
   margin: 0;
