@@ -1,4 +1,4 @@
-
+/* --- General & Mobile-First Styles --- */
 .guide-text {
   text-align: left;
   margin: 20px auto;
@@ -7,7 +7,7 @@
 }
 
 .guide-text strong {
-  color: #00ffc3; 
+  color: #00ffc3;
 }
 
 body {
@@ -20,44 +20,87 @@ body {
   height: 100vh;
   overflow: hidden;
 }
+
 .game-module-bar {
   background-color: #1a1a1a;
   color: #00ffc3;
-  padding: 10px 20px;
+  padding: 10px;
   text-align: center;
   text-shadow: 0 0 5px #00ffc3, 0 0 10px #00ffc3;
   border-bottom: 2px solid #00ffc3;
   flex-shrink: 0;
 }
+
 .main-container {
   display: flex;
+  flex-direction: column; /* Vertical layout for mobile */
   flex-grow: 1;
-  padding: 20px;
-  gap: 20px;
+  padding: 10px;
+  gap: 10px;
   overflow: hidden;
 }
+
 .left-panel {
-  width: 280px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   flex-shrink: 0;
 }
+
+/* New mobile header for compact info */
+.mobile-header {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
 .info-box {
   background-color: rgba(26, 26, 26, 0.8);
-  padding: 20px;
+  padding: 10px; /* Reduced padding */
   border-radius: 8px;
   border: 1px solid #00ffc3;
-  box-shadow: 0 0 15px rgba(0, 255, 195, 0.2);
+  box-shadow: 0 0 10px rgba(0, 255, 195, 0.2);
+}
+
+#user-box {
+  flex-grow: 1;
+  font-size: 0.9em;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#score-time-box {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+}
+#score-time-box p {
+  margin: 0;
+}
+
+.timer-display {
+  text-align: center;
 }
 .timer-display #time {
-  font-size: 3.5em;
+  font-size: 2em; /* Smaller timer */
   font-weight: bold;
   color: #ff00ff;
-  text-shadow: 0 0 5px #ff00ff, 0 0 15px #ff00ff, 0 0 25px #ff00ff;
+  text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff;
+}
+.timer-display p {
+    display: none; /* Hide the "Time:" label on mobile */
+}
+
+.buttons-row {
+  display: flex;
+  gap: 10px;
 }
 .buttons-row button {
-  padding: 15px;
+  padding: 10px;
   border: 2px solid #00ffc3;
   background-color: transparent;
   border-radius: 5px;
@@ -65,34 +108,43 @@ body {
   cursor: pointer;
   font-family: "Orbitron", sans-serif;
   font-weight: bold;
-  font-size: 1em;
+  font-size: 0.9em;
   transition: all 0.3s ease;
+  flex-grow: 1; /* Make buttons fill the row */
   text-shadow: 0 0 3px #00ffc3;
 }
 .buttons-row button:hover {
   background-color: #00ffc3;
   color: #0d0d0d;
-  box-shadow: 0 0 20px #00ffc3;
+  box-shadow: 0 0 15px #00ffc3;
 }
+
+#leaderboard-box {
+  display: none; /* Hide leaderboard on mobile to save space */
+}
+
 .game-zone-container {
-  flex-grow: 1;
+  flex-grow: 1; /* CRITICAL: Takes up remaining space */
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 8px;
   border: 1px solid #333;
-  padding: 20px;
+  padding: 10px;
+  min-height: 0; /* Prevents flexbox overflow issues */
 }
+
 #game-zone {
   display: grid;
   height: 100%;
-  gap: 15px;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(65px, 1fr));
 }
+
 .number-block {
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2.5em;
+  font-size: 2em;
   font-weight: bold;
   cursor: pointer;
   border-radius: 8px;
@@ -100,15 +152,16 @@ body {
   background-color: transparent;
   border: 2px solid #3498db;
   text-shadow: 0 0 5px #fff, 0 0 10px #3498db;
-  box-shadow: inset 0 0 10px #3498db, 0 0 10px #3498db;
+  box-shadow: inset 0 0 8px #3498db, 0 0 8px #3498db;
   aspect-ratio: 1 / 1;
 }
 .number-block:hover {
   background-color: #3498db;
   color: #0d0d0d;
   transform: scale(1.05);
-  box-shadow: inset 0 0 10px #fff, 0 0 25px #3498db;
+  box-shadow: inset 0 0 10px #fff, 0 0 20px #3498db;
 }
+
 .number-block.deactivated {
   background-color: #1a1a1a;
   color: #444;
@@ -118,6 +171,8 @@ body {
   box-shadow: none;
   transform: scale(0.95);
 }
+
+/* --- Modal & Countdown Styles (Largely Unchanged) --- */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -129,19 +184,21 @@ body {
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  padding: 15px;
 }
 .modal-content {
   background-color: #1a1a1a;
-  padding: 30px;
+  padding: 20px;
   border-radius: 10px;
   text-align: center;
-  max-width: 500px; /* Wider modal for guide */
+  width: 100%;
+  max-width: 500px;
   border: 2px solid #00ffc3;
   box-shadow: 0 0 30px rgba(0, 255, 195, 0.5);
 }
 .modal-content input,
 .modal-content button {
-  width: 80%;
+  width: 90%;
   padding: 12px;
   margin-top: 15px;
   border-radius: 5px;
@@ -163,7 +220,7 @@ body {
 }
 #countdown-overlay {
   z-index: 1001;
-  font-size: 20vw;
+  font-size: 30vw;
   font-weight: bold;
   color: #ff00ff;
   text-shadow: 0 0 10px #fff, 0 0 30px #ff00ff, 0 0 60px #ff00ff;
@@ -173,12 +230,84 @@ body {
   animation: zoom-fade 1s ease-in-out forwards;
 }
 @keyframes zoom-fade {
-  from {
-    opacity: 1;
-    transform: scale(0.5);
+  from { opacity: 1; transform: scale(0.5); }
+  to { opacity: 0; transform: scale(2); }
+}
+
+/* --- Desktop Styles (using a media query) --- */
+@media (min-width: 768px) {
+  .main-container {
+    flex-direction: row; /* Switch to side-by-side layout */
+    padding: 20px;
+    gap: 20px;
   }
-  to {
-    opacity: 0;
-    transform: scale(2);
+
+  .left-panel {
+    width: 280px; /* Restore fixed width */
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  /* Revert mobile header structure */
+  .mobile-header {
+    display: block;
+  }
+
+  .info-box {
+    padding: 20px;
+  }
+
+  #user-box {
+    text-align: left;
+    display: block;
+  }
+  
+  #score-time-box {
+    display: block;
+    gap: 0;
+  }
+
+  #score-time-box p {
+     margin-bottom: 10px;
+  }
+
+  .timer-display #time {
+    font-size: 3.5em; /* Restore large timer */
+  }
+
+  .timer-display p {
+    display: block; /* Show "Time:" label again */
+  }
+
+  .buttons-row {
+    display: block; /* Each button on its own line */
+  }
+  
+  .buttons-row button {
+    width: 100%;
+    padding: 15px;
+    font-size: 1em;
+    margin-bottom: 10px; /* Add space between buttons */
+  }
+  
+  #leaderboard-box {
+    display: block; /* Show leaderboard again */
+  }
+
+  .game-zone-container {
+    padding: 20px;
+  }
+
+  #game-zone {
+    gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+  
+  .number-block {
+    font-size: 2.5em;
+  }
+  
+  #countdown-overlay {
+    font-size: 20vw;
   }
 }
